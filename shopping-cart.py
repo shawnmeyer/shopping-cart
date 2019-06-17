@@ -1,6 +1,32 @@
 # shopping_cart.py
 
-#from pprint import pprint
+import datetime
+
+def final_receipt(receipt_products):
+    current_time = datetime.datetime.now()
+    subtotal = 0
+
+    print("-------------------------")
+    print("THE MEAT PALACE")
+    print("WWW.THE-MEAT-PALACE.RU")
+    print("-------------------------")
+    print("CHECKOUT TIME: "+ str(current_time.strftime("%a, %b %d, %Y")) + "  " + str(current_time.strftime("%I:%M:%S %p")))
+    print("-------------------------")
+    print("SELECTED PRODUCTS:")
+
+    for y in receipt_products:
+        subtotal = subtotal + y["price"]
+        print("---" + y["name"] + " (" + str('${:,.2f}'.format(y["price"])) + ")" )
+
+    tax = subtotal *.075
+
+    print("-------------------------")
+    print("SUBTOTAL: " + str('${:,.2f}'.format(subtotal)))
+    print("TAX: " + str('${:,.2f}'.format(tax)))
+    print("TOTAL: " + str('${:,.2f}'.format(tax+subtotal)))
+    print("-------------------------")
+    print("THANKS, SEE YOU AGAIN SOON")
+    print("-------------------------")
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -25,7 +51,20 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-print(products)
-# pprint(products)
+product_id = "none"
+receipt_items = []
 
-# TODO: write some Python code here to produce the desired output
+while product_id.upper() != "DONE":
+
+    product_id = input("Please input a product ID, or type \"done\": ")
+    
+    if any(str(d["id"]) == product_id for d in products):
+        for x in products:
+            if str(x["id"]) == product_id:
+                receipt_items.append(x)
+    
+    else:
+        print("OOPS, THAT ITEM DOES NOT EXIST IN OUR INVENTORY.")
+
+final_receipt(receipt_items)
+
